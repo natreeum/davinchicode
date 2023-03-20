@@ -11,12 +11,18 @@ export function GameList() {
   // }, [socket]);
 
   const navigate = useNavigate();
+  useEffect(() => {
+    if (!window.sessionStorage.getItem('username')) navigate('/');
+  }, []);
   const btnClickHandler = () => {
     window.sessionStorage.clear();
     navigate('/');
   };
   const EG_btnClickHandler = () => {
     // socket.emit('send_message', { message: 'hello' });
+  };
+  const CG_btnClickHandler = async () => {
+    navigate('/creategame');
   };
   return (
     <div>
@@ -25,6 +31,8 @@ export function GameList() {
         <br />
         <button onClick={btnClickHandler}>Logout</button>
         <br />
+        <br />
+        <button onClick={CG_btnClickHandler}>CreateGame</button>
         <br />
         <input type={'text'} placeholder="Enter Your Code" />
         <button onClick={EG_btnClickHandler}>EnterGame</button>

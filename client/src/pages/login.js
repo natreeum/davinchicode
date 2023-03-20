@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export function Login() {
@@ -13,6 +13,11 @@ export function Login() {
   const textHandler = (el) => {
     setUsername(el.target.value);
   };
+  useEffect(() => {
+    if (window.sessionStorage.getItem('username')) {
+      navigate('/gamelist');
+    }
+  }, []);
   return (
     <div>
       <div>Username</div>
