@@ -1,29 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import io from 'socket.io-client';
+import axios from 'axios';
+import network from '../network';
+import { socket } from './gameRoom';
 
 export function GameList() {
-  // const socket = io.connect('http://localhost:3001');
-  // useEffect(() => {
-  //   socket.on('roomList', (d) => {
-  //     console.log(d);
-  //   });
-  // }, [socket]);
-
+  const [enterCode, setEnterCode] = useState('');
   const navigate = useNavigate();
-  useEffect(() => {
-    if (!window.sessionStorage.getItem('username')) navigate('/');
-  }, []);
   const btnClickHandler = () => {
     window.sessionStorage.clear();
     navigate('/');
   };
-  const EG_btnClickHandler = () => {
-    // socket.emit('send_message', { message: 'hello' });
+  const EG_btnClickHandler = async (e) => {
+    if (enterCode.length === 0) return alert('enter the code');
+    const gameInfo = await axios.get(
+      `${network.ip}:${network.port}/getgame/${enterCode}`
+    );
+    if (gameInfo.data.status == 'success') {
+      await axios.post(`${network.ip}:${network.port}/joinroom`, {
+        id: window.sessionStorage.getItem('username'),
+        code: enterCode,
+      });
+      socket.emit('join', gameInfo.data.message.code);
+      window.sessionStorage.setItem('code', gameInfo.data.message.code);
+      navigate('/gameroom');
+    } else alert(`Game with code ${enterCode} does not exist`);
   };
-  const CG_btnClickHandler = async () => {
+  const CG_btnClickHandler = () => {
     navigate('/creategame');
   };
+  const textHandler = (e) => setEnterCode(e.target.value);
+  useEffect(() => {
+    if (!window.sessionStorage.getItem('username')) navigate('/');
+  }, []);
   return (
     <div>
       <div>
@@ -34,7 +43,11 @@ export function GameList() {
         <br />
         <button onClick={CG_btnClickHandler}>CreateGame</button>
         <br />
-        <input type={'text'} placeholder="Enter Your Code" />
+        <input
+          type={'text'}
+          placeholder="Enter Your Code"
+          onChange={textHandler}
+        />
         <button onClick={EG_btnClickHandler}>EnterGame</button>
       </div>
     </div>
