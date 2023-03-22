@@ -18,6 +18,7 @@ export function GameRoom() {
       code: window.sessionStorage.getItem('code'),
     });
     socket.emit('join', gameInfo.code);
+    window.sessionStorage.removeItem('code');
     nav('/gamelist');
   };
   useEffect(() => {
