@@ -1,6 +1,6 @@
 const network = {
   // ip: 'http://localhost',
-  ip: '3.34.52.156',
+  ip: 'http://3.34.52.156',
   port: '3001',
 };
 
