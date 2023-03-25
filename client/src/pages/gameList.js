@@ -16,6 +16,15 @@ export function GameList() {
     const gameInfo = await axios.get(
       `${network.ip}:${network.port}/getgame/${enterCode}`
     );
+    if (gameInfo.data.message) {
+      if (gameInfo.data.message.isStarted)
+        return alert('This game is already started!');
+      if (
+        gameInfo.data.message.memList.length == gameInfo.data.message.maxMember
+      )
+        return alert(`This game is full!`);
+    }
+
     if (gameInfo.data.status == 'success') {
       await axios.post(`${network.ip}:${network.port}/joinroom`, {
         id: window.sessionStorage.getItem('username'),

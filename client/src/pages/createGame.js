@@ -33,6 +33,7 @@ export function CreateGame() {
           name={'memCnt'}
           value={2}
           onChange={r_HandleChange}
+          checked
         ></input>
       </div>
       <div>
