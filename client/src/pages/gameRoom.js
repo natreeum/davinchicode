@@ -13,6 +13,7 @@ export function GameRoom() {
     memList: [],
     maxMember: '0',
   });
+  const [curMemCnt, setCurMemCnt] = useState(1);
   const btn_exit_clickHandler = async () => {
     await axios.post(`${network.ip}:${network.port}/exitroom`, {
       id: window.sessionStorage.getItem('username'),
@@ -25,6 +26,7 @@ export function GameRoom() {
   useEffect(() => {
     socket.on(gameInfo.code, (data) => {
       setGameInfo(data);
+      setCurMemCnt(data.memList.length);
     });
   }, [socket]);
   return (
@@ -32,7 +34,7 @@ export function GameRoom() {
       <div>room code : {gameInfo.code}</div>
       <div>Max member : {gameInfo.maxMember}</div>
       <br />
-      <div>Member List</div>
+      <div>Member List({curMemCnt})</div>
       <div>==========</div>
       {gameInfo.memList.map((e) => (
         <div key={e.id}>{e.id}</div>
