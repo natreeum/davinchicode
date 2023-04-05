@@ -22,7 +22,7 @@ export function CreateGame() {
   const r_HandleChange = (e) => {
     setMemCount(e.target.value);
   };
-  const [memCount, setMemCount] = useState(2);
+  const [memCount, setMemCount] = useState('2');
 
   return (
     <div>
@@ -33,7 +33,7 @@ export function CreateGame() {
           name={'memCnt'}
           value={2}
           onChange={r_HandleChange}
-          checked
+          checked={memCount === '2'}
         ></input>
       </div>
       <div>
@@ -43,6 +43,7 @@ export function CreateGame() {
           name={'memCnt'}
           value={3}
           onChange={r_HandleChange}
+          checked={memCount === '3'}
         ></input>
       </div>
       <div>
@@ -52,6 +53,7 @@ export function CreateGame() {
           name={'memCnt'}
           value={4}
           onChange={r_HandleChange}
+          checked={memCount === '4'}
         ></input>
       </div>
       <button onClick={C_btnClickHandler}>Create</button>

@@ -11,9 +11,10 @@ export function GameRoom() {
   const [gameInfo, setGameInfo] = useState({
     code: window.sessionStorage.getItem('code'),
     memList: [],
+    maxMember: '0',
   });
   const btn_exit_clickHandler = async () => {
-    const exitRes = await axios.post(`${network.ip}:${network.port}/exitroom`, {
+    await axios.post(`${network.ip}:${network.port}/exitroom`, {
       id: window.sessionStorage.getItem('username'),
       code: window.sessionStorage.getItem('code'),
     });
@@ -29,6 +30,10 @@ export function GameRoom() {
   return (
     <div>
       <div>room code : {gameInfo.code}</div>
+      <div>Max member : {gameInfo.maxMember}</div>
+      <br />
+      <div>Member List</div>
+      <div>==========</div>
       {gameInfo.memList.map((e) => (
         <div key={e.id}>{e.id}</div>
       ))}
