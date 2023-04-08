@@ -14,6 +14,7 @@ export function GameRoom() {
     maxMember: '0',
   });
   const [curMemCnt, setCurMemCnt] = useState(1);
+  const btn_start_clickHandler = async () => {};
   const btn_exit_clickHandler = async () => {
     await axios.post(`${network.ip}:${network.port}/exitroom`, {
       id: window.sessionStorage.getItem('username'),
@@ -39,6 +40,9 @@ export function GameRoom() {
       {gameInfo.memList.map((e) => (
         <div key={e.id}>{e.id}</div>
       ))}
+      <br />
+      <button onClick={btn_start_clickHandler}>Game Start</button>
+      <br />
       <button onClick={btn_exit_clickHandler}>exit</button>
     </div>
   );
